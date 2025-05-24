@@ -1,0 +1,247 @@
+/* Genel Ayarlar */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-image: url('images/Arkaplan.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Ana Konteyner */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.919);
+}
+
+/* Başlık */
+.title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+/* Seçim Paneli */
+.secim-paneli {
+  margin-bottom: 20px;
+}
+
+.input-button-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.input-button-container img {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+#karakterInput {
+  flex-grow: 1;
+  padding: 10px;
+  font-size: 1rem;
+}
+
+#tahminEtBtn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Öneri Listesi */
+.oneri-listesi {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 300px;
+  max-height: 200px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ccc;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  z-index: 10;
+}
+
+.oneri-listesi li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.oneri-listesi li:hover,
+.oneri-listesi li.selected {
+  background-color: #eee;
+}
+
+/* Veri Başlıkları */
+#veriBasliklari {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  margin-bottom: 10px;
+}
+
+#veriBasliklari .baslik {
+  width: 82px;
+  height: 82px;
+  background-color: rgba(255, 255, 255, 0.82);
+  color: black;
+  font-weight: bold;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+/* Tahmin Blok */
+.tahmin-blok {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 12px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Fotoğraf */
+.karakter-foto {
+  width: 82px;
+  height: 82px;
+  border-radius: 10px;
+  margin-right: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* Veri Kutuları */
+.veri-kutulari {
+  display: flex;
+  gap: 6.15px;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+}
+
+.veri-kutusu {
+  width: 82px;
+  height: 82px;
+  padding: 5px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeIn 7s forwards;
+  flex-shrink: 0;
+}
+
+/* Renkler */
+.veri-kutusu.green {
+  background-color: #4CAF50;
+}
+
+.veri-kutusu.red {
+  background-color: #f44336;
+}
+
+/* Kazandın Mesajı */
+.kazandin-mesaji {
+  background-color: #dff0d8;
+  color: #3c763d;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+/* Fade-in Animasyonu */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Başlıklar Sabit Alan */
+.basliklar-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.basliklar {
+  display: flex;
+  gap: 6px;
+}
+
+.basliklar .veri-baslik {
+  background-color: rgba(255, 255, 255, 0);
+  color: black;
+  font-weight: bold;
+  font-size: 0.85rem;
+  width: 83px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 0px;
+}
+
+.logo {
+  max-width: 300px;
+  height: auto;
+}
+
+/* Alt Bilgi */
+.footer {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0);
+  padding: 0px 0;
+  font-size: 0.9rem;
+  margin-top: 0px;
+  z-index: 100;
+  color:#ffffff8a
+}
+
+.footer a {
+  color: #80bcf78a;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
