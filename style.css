@@ -245,3 +245,33 @@ body {
 .footer a:hover {
   text-decoration: underline;
 }
+
+/* Sadece mobil cihazlarda başlıkları kaydırılabilir yap */
+@media (max-width: 768px) {
+  .scroll-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #baslikSatiri {
+    display: flex;
+    min-width: 1000px; /* Genişliği kutu sayısına göre ayarlayabilirsin */
+  }
+}
+
+.scroll-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 20px;
+}
+
+.scroll-icerik {
+  display: inline-block;
+  min-width: max-content;
+}
+
+#baslikSatiri {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
