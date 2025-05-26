@@ -153,7 +153,7 @@
     "Seçilen Kişi": "Karzar",
     "Türü": "Kişi",
     "Cinsiyeti": "Erkek",
-    "Irkı": "Ezaki",
+    "Irkı": "İnsan",
     "Cille Türü": "Kişi",
     "Elementi": "Kişi",
     "Cille Özelliği": "Kişi",
@@ -928,5 +928,20 @@
     "Yaşadığı Zaman": "Cille",
     "Cillesi Oldu Mu?": "Cille",
     "image": "images/Suban.jpg"
+  },
+  {
+    "Seçilen Kişi": "Zend",
+    "Türü": "Kişi",
+    "Cinsiyeti": "Erkek",
+    "Irkı": "Ezaki",
+    "Cille Türü": "Kişi",
+    "Elementi": "Kişi",
+    "Cille Özelliği": "Kişi",
+    "İlk Görülmesi": "1. Sezon",
+    "Filmde Var Mı": "Yok",
+    "Cillenin Uçabilirliği": "Kişi",
+    "Yaşadığı Zaman": "Geçmiş",
+    "Cillesi Oldu Mu?": "Yok",
+    "image": "images/Zend.jpeg"
   }
 ]
