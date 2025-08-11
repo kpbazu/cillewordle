@@ -1,69 +1,440 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <title>Cille Wordle - Cille Tahmin Oyunu</title>
-<meta name="description" content="Cille evrenine özel, eğlenceli tahmin oyunu. Rastgele tutulan bir cilleyi veya cille karakterini gösterilen talimatlarla bul!">
-<meta name="keywords" content="Cille Wordle, Cille oyunu, Wordle benzeri, Cille karakterleri, Cille bulmaca, Wordle Türkiye, Cille evreni, Cille, cille izle, Cille 2069, Cille 2069 izle, cille behmut, cille film">
-<meta name="author" content="CilleWordle">
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>Cille Wordle - Cille Tahmin Oyunu</title>
+    <meta name="description" content="Cille evrenine özel, eğlenceli tahmin oyunu. Rastgele tutulan bir cilleyi veya cille karakterini gösterilen talimatlarla bul!">
+    <meta name="keywords" content="Cille Wordle, Cille oyunu, Wordle benzeri, Cille karakterleri, Cille bulmaca, Wordle Türkiye, Cille evreni, Cille, cille izle, Cille 2069, Cille 2069 izle, cille behmut, cille film">
+    <meta name="author" content="CilleWordle">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4RJ75SZY85"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4RJ75SZY85"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-4RJ75SZY85');
+    </script>
+    
+    <!-- Adsense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5040386923519845" crossorigin="anonymous"></script>
 
-  gtag('config', 'G-4RJ75SZY85');
-</script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5040386923519845"
-     crossorigin="anonymous"></script>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cille Wordle</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="images/favicon.ico" onerror="this.href='';" />
+    <style>
+        /* Custom styles */
+        body {
+    font-family: 'Inter', sans-serif;
+    background-color: #111827; /* Yedek renk */
+    background-image: url('images/Arkaplan.jpg'), url('https://placehold.co/1920x1080/111827/FFFFFF?text=Cille+Wordle');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+
+        /* Öneri listesinde seçili olan öğe */
+        #oneriListesi li.selected {
+            background-color: #4f46e5;
+            color: white;
+        }
+        
+        /* Scrollbar gizleme */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+        
+        /* Kart dönme animasyonu için temel stiller */
+        .flip-card {
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        .flip-card.flipped {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            position: absolute;
+            inset: 0;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        
+        /* GÜNCELLEME: Kartların sırayla aydınlanarak (fade-in) belirmesini sağlayan animasyon */
+       @keyframes fade-in-opacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.card-appear-animate {
+  animation-name: fade-in-opacity;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-out;
+  animation-duration: 0.5s;
+  opacity: 0;
+  transform: none !important;
+}
+
+    </style>
 </head>
-<body>
-  <div class="container">
-   <div class="logo-container">
-  <img src="images/Cille.png" alt="Cille Wordle Logo" class="logo" />
-</div>
+<body class="text-white antialiased">
 
+    <!-- Arkaplan karartma katmanı -->
+    <div class="fixed top-0 left-0 w-full h-full bg-black/60 z-[-1]"></div>
 
-    <div class="secim-paneli">
-      <label for="karakterInput">Bir Karakter Yazın:</label>
-      <div class="input-button-container">
-        <input type="text" id="karakterInput" placeholder="Bir karakter veya cille ismi giriniz." />
-        <button id="tahminEtBtn">Tahmin Et</button>
-        <ul id="oneriListesi" class="oneri-listesi"></ul>
-      </div>
+    <div class="container mx-auto p-4 md:p-8 min-h-screen flex flex-col">
+        <!-- Logo -->
+        <div class="text-center mb-6">
+            <img src="images/Cille.png" alt="Cille Wordle Logo" class="mx-auto w-48 md:w-64" onerror="this.onerror=null; this.src='https://placehold.co/256x100/transparent/FFFFFF?text=Cille+Wordle';">
+        </div>
+
+        <!-- Giriş Paneli -->
+        <div class="w-full max-w-2xl mx-auto mb-6">
+            <div class="relative">
+                <input type="text" id="karakterInput" placeholder="Bir karakter veya cille ismi giriniz..."
+                       class="w-full p-4 pr-32 bg-gray-800 border-2 border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                <button id="tahminEtBtn"
+                        class="absolute top-1/2 right-2 -translate-y-1/2 bg-indigo-600 text-white font-bold py-2 px-6 rounded-md hover:bg-indigo-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-800">
+                    Tahmin Et
+                </button>
+                <ul id="oneriListesi"
+                    class="absolute top-full left-0 right-0 mt-2 bg-gray-800 border border-gray-600 rounded-lg max-h-60 overflow-y-auto z-20 hidden">
+                    <!-- Öneriler JS tarafından doldurulacak -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- Sonuç Alanı -->
+        <div id="results-wrapper" class="w-full flex-grow overflow-hidden">
+             <!-- Veri yükleme durumu için mesaj alanı -->
+             <div id="initial-message-container"></div>
+             <div class="overflow-x-auto scrollbar-hide pb-4">
+                 <div class="min-w-[1000px] space-y-3">
+                     <!-- Başlıklar JS tarafından doldurulacak -->
+                     <div id="baslikSatiri" class="grid grid-cols-12 gap-2 text-center font-bold text-xs md:text-sm" style="display: none;"></div>
+                     <!-- Tahminler buraya gelecek -->
+                     <div id="tahminSonuclari" class="space-y-3"></div>
+                 </div>
+             </div>
+        </div>
+        
+        <!-- Alt Bilgi -->
+        <footer class="text-center py-4 mt-auto">
+            <p class="text-gray-400 text-sm">
+                Bu oyun
+                <a href="https://www.instagram.com/cillebazu/" target="_blank" rel="noopener noreferrer"
+                   class="font-semibold text-indigo-400 hover:underline">cillebazu</a>
+                tarafından oluşturulmuştur.
+            </p>
+        </footer>
     </div>
 
-    <div id="kazandinMesaji" class="kazandin-mesaji" style="display:none;">
-      🎉 Tebrikler, doğru karakteri buldunuz!
-      <br><br>
-      <button onclick="location.reload()">Tekrar Oyna</button>
+    <!-- Kazanma Modalı -->
+    <div id="kazandinMesaji" class="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50 transition-opacity duration-300 opacity-0 pointer-events-none">
+        <div class="bg-gray-800 rounded-2xl p-8 text-center shadow-2xl max-w-sm w-full transform scale-95 transition-all duration-300">
+            <h2 class="text-3xl font-extrabold text-green-400 mb-2">🎉 Tebrikler! 🎉</h2>
+            <p class="text-lg text-gray-200 mb-6">Doğru karakteri buldunuz!</p>
+            <div id="foundCharacter" class="mb-6">
+                <!-- Doğru karakter bilgisi buraya gelecek -->
+            </div>
+            <button onclick="location.reload()"
+                    class="w-full bg-green-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-green-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-800">
+                Tekrar Oyna
+            </button>
+        </div>
     </div>
 
-    <div class="scroll-container">
-  <div class="scroll-icerik">
-    <div id="baslikSatiri" class="basliklar" style="display:none;"></div>
-    <div id="tahminSonuclari"></div>
-  </div>
-</div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        // --- VERİ ve DURUM ---
+        const alanlar = [
+            "Seçilen Kişi", "Türü", "Cinsiyeti", "Irkı", "Cille Türü", "Elementi",
+            "Cille Özelliği", "İlk Görülmesi", "Filmde Var Mı", "Cillenin Uçabilirliği",
+            "Yaşadığı Zaman", "Cillesi Oldu Mu?"
+        ];
+
+        let karakterler = [];
+        let secilenKisi = null;
+        let tahminSayisi = 0;
+        let currentIndex = -1;
+        let oyunBitti = false;
+        let tahminYapilabilir = true;  // Animasyon süresince yeni tahmin yapılmasını engellemek için
+
+
+        // --- DOM ELEMENTLERİ ---
+        const input = document.getElementById("karakterInput");
+        const liste = document.getElementById("oneriListesi");
+        const btn = document.getElementById("tahminEtBtn");
+        const baslikContainer = document.getElementById("baslikSatiri");
+        const tahminContainer = document.getElementById("tahminSonuclari");
+        const winModal = document.getElementById("kazandinMesaji");
+        const initialMessageContainer = document.getElementById('initial-message-container');
+
+
+        // --- FONKSİYONLAR ---
+
+        /**
+         * Karakter verisini JSON dosyasından çeker ve rastgele bir karakter seçer.
+         */
+        async function veriYukle() {
+            try {
+                // Verileri harici 'characters.json' dosyasından çekmek için fetch metodu kullanılıyor.
+                const response = await fetch('characters.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP hatası! Durum: ${response.status}`);
+                }
+                karakterler = await response.json();
+                
+                if (!karakterler || karakterler.length === 0) {
+                     throw new Error("Karakter verisi boş veya hatalı.");
+                }
+
+            } catch (error) {
+                // fetch başarısız olursa yedek (mock) verileri kullan ve bir uyarı mesajı göster.
+                console.error("Gerçek veri yüklenirken hata oluştu, yedek veriler kullanılıyor:", error);
+                karakterler = [
+                    { "Seçilen Kişi": "Kayra", "Türü": "İnsan", "Cinsiyeti": "Erkek", "Irkı": "İnsan", "Cille Türü": "Yok", "Elementi": "Yok", "Cille Özelliği": "Yok", "İlk Görülmesi": "Bölüm 1", "Filmde Var Mı": "Evet", "Cillenin Uçabilirliği": "Yok", "Yaşadığı Zaman": "Günümüz", "Cillesi Oldu Mu?": "Evet" },
+                    { "Seçilen Kişi": "Rehzen", "Türü": "İnsan", "Cinsiyeti": "Erkek", "Irkı": "İnsan", "Cille Türü": "Kral Cille", "Elementi": "Ateş", "Cille Özelliği": "Liderlik", "İlk Görülmesi": "Bölüm 1", "Filmde Var Mı": "Evet", "Cillenin Uçabilirliği": "Evet", "Yaşadığı Zaman": "Günümüz", "Cillesi Oldu Mu?": "Evet" },
+                    { "Seçilen Kişi": "Behmut", "Türü": "Cille", "Cinsiyeti": "Erkek", "Irkı": "Cille", "Cille Türü": "Efsanevi Cille", "Elementi": "Toprak", "Cille Özelliği": "Güç", "İlk Görülmesi": "Bölüm 5", "Filmde Var Mı": "Evet", "Cillenin Uçabilirliği": "Hayır", "Yaşadığı Zaman": "Eski Çağlar", "Cillesi Oldu Mu?": "Hayır" },
+                    { "Seçilen Kişi": "Müdrik", "Türü": "İnsan", "Cinsiyeti": "Erkek", "Irkı": "İnsan", "Cille Türü": "Bilge Cille", "Elementi": "Hava", "Cille Özelliği": "Bilgelik", "İlk Görülmesi": "Bölüm 2", "Filmde Var Mı": "Evet", "Cillenin Uçabilirliği": "Evet", "Yaşadığı Zaman": "Günümüz", "Cillesi Oldu Mu?": "Evet" }
+                ];
+                initialMessageContainer.innerHTML = `<div class="text-center text-yellow-300 p-4 bg-yellow-900/50 rounded-lg mb-4 max-w-2xl mx-auto"><strong>Uyarı:</strong> 'characters.json' dosyası yüklenemedi. Gösterim amaçlı yedek veriler kullanılıyor.</div>`;
+            }
+            
+            // Veri yüklendikten sonra rastgele bir karakter seç
+            if (karakterler.length > 0) {
+                secilenKisi = karakterler[Math.floor(Math.random() * karakterler.length)];
+                console.log("Gizli karakter:", secilenKisi["Seçilen Kişi"]); // Hata ayıklama için
+            } else {
+                initialMessageContainer.innerHTML = `<div class="text-center text-red-400 p-4 bg-red-900/50 rounded-lg max-w-2xl mx-auto"><strong>HATA:</strong> Oynanacak karakter bulunamadı. Lütfen 'characters.json' dosyasının varlığını ve içeriğini kontrol edin.</div>`;
+                oyunBitti = true; // Oyunu durdur
+                input.disabled = true;
+                btn.disabled = true;
+            }
+        }
+        
+        /**
+         * Sonuç tablosu için başlık satırını oluşturur.
+         */
+        function baslikSatiriOlustur() {
+            const resimBaslik = `<div class="bg-gray-700/50 p-2 rounded-md flex items-center justify-center">Karakter</div>`;
+            const veriBasliklari = alanlar.slice(1).map(alan => 
+                `<div class="bg-gray-700/50 p-2 rounded-md flex items-center justify-center">${alan}</div>`
+            ).join('');
+
+            baslikContainer.innerHTML = resimBaslik + veriBasliklari;
+            baslikContainer.style.display = "grid";
+        }
+        
+        /**
+         * Kullanıcının tahminini işler ve sonucu gösterir.
+         */
+        function karakterSecildi(ad) {
+    if (oyunBitti) return;
+
+    if (!tahminYapilabilir) return;
+
+    tahminYapilabilir = false;
+
+    const karakter = karakterler.find(k => k["Seçilen Kişi"].toLowerCase() === ad.toLowerCase());
+    
+    if (!karakter || document.querySelector(`[data-ad="${ad.toLowerCase()}"]`)) {
+         input.value = "";
+         oneriFiltrele('');
+         return;
+    }
+
+            tahminSayisi++;
+            if (tahminSayisi === 1) {
+                baslikSatiriOlustur();
+                initialMessageContainer.style.display = 'none'; // İlk uyarıyı gizle
+            }
+
+            const tahminBlok = document.createElement("div");
+            tahminBlok.className = "tahmin-blok grid grid-cols-12 gap-2";
+            tahminBlok.dataset.ad = ad.toLowerCase();
+
+            let kazanildi = true;
+            let html = '';
+
+            const resimAdi = karakter["Seçilen Kişi"];
+            const resimYoluJpg = `images/${resimAdi}.jpg`;
+            const resimYoluJpeg = `images/${resimAdi}.jpeg`;
+            const placeholderSrc = `https://placehold.co/96x96/4B5563/FFFFFF?text=${resimAdi.charAt(0)}`;
+            
+           html += `
+    <div class="relative aspect-square rounded-md overflow-hidden bg-gray-700 card-appear-animate" style="animation-delay: 0s;">
+        <img src="${resimYoluJpg}" 
+             onerror="this.onerror=null; this.src='${resimYoluJpeg}'; this.onerror=function() { this.onerror=null; this.src='${placeholderSrc}'; };"
+             alt="${resimAdi}" 
+             class="w-full h-full object-cover">
+    </div>
+`;
+
+            
+            // Kartların sıralı animasyonla gelmesi için her birine gecikme ekleniyor.
+const totalAnimDuration = 6; // toplam animasyon süresi saniye cinsinden
+const totalCards = alanlar.length - 1;
+
+alanlar.slice(1).forEach((alan, index) => {
+    const delay = (index / totalCards) * totalAnimDuration;
+    const isCorrect = karakter[alan] === secilenKisi[alan];
+    if (!isCorrect) kazanildi = false;
+    const bgColor = isCorrect ? 'bg-green-600' : 'bg-red-600';
+    const text = karakter[alan] || "Yok";
+
+    html += `
+        <div class="relative aspect-square card-appear-animate" style="animation-delay: ${delay}s;">
+            <div class="absolute inset-0 flip-card">
+                 <div class="card-front bg-gray-700 rounded-md"></div>
+                 <div class="card-back ${bgColor} rounded-md flex items-center justify-center p-1 text-center text-xs md:text-sm font-bold leading-tight">
+                     ${text}
+                 </div>
+            </div>
+        </div>
+    `;
+});
+
+            
+            tahminBlok.innerHTML = html;
+            tahminContainer.prepend(tahminBlok);
+            
+            tahminBlok.querySelectorAll('.flip-card').forEach(card => card.classList.add('flipped'));
+
+setTimeout(() => {
+    tahminYapilabilir = true;  // **Animasyon bitti, tekrar tahmin yapılabilir**
+}, totalAnimDuration * 1000);
 
 
 
-    <div id="tahminSonuclari"></div>
-  </div>
+            if (kazanildi) {
+                oyunBitti = true;
+                setTimeout(() => {
+                    const foundCharacterInfo = document.getElementById('foundCharacter');
+                    const kazananResimAdi = karakter["Seçilen Kişi"];
+                    const kazananResimYoluJpg = `images/${kazananResimAdi}.jpg`;
+                    const kazananResimYoluJpeg = `images/${kazananResimAdi}.jpeg`;
+                    const kazananPlaceholder = `https://placehold.co/128x128/374151/FFFFFF?text=${kazananResimAdi.charAt(0)}`;
 
-    </div> <!-- container kapanış etiketi -->
+                    foundCharacterInfo.innerHTML = `
+                         <img src="${kazananResimYoluJpg}" 
+                              onerror="this.onerror=null; this.src='${kazananResimYoluJpeg}'; this.onerror=function() { this.onerror=null; this.src='${kazananPlaceholder}'; };"
+                              alt="${kazananResimAdi}" 
+                              class="w-32 h-32 object-cover rounded-full mx-auto mb-4 border-4 border-green-500">
+                         <p class="text-2xl font-bold text-white">${kazananResimAdi}</p>
+                    `;
+                    winModal.classList.remove('opacity-0', 'pointer-events-none');
+                    winModal.querySelector('div').classList.remove('scale-95');
+                }, (alanlar.length * 80) + 800); // Gecikme animasyon süresine göre ayarlandı
+            }
 
-  <footer class="footer">
-    <p>Bu oyun <a href="https://www.instagram.com/cillebazu/" target="_blank">cillebazu</a> tarafından oluşturulmuştur.</p>
-  </footer>
+            input.value = "";
+            oneriFiltrele('');
+        }
 
-  <script src="script.js"></script>
+        /**
+         * Girdiye göre karakter önerilerini filtreler ve gösterir.
+         */
+        function oneriFiltrele(girdi) {
+            if (!girdi) {
+                liste.classList.add("hidden");
+                return;
+            }
+            const eslesenler = karakterler
+                .map(k => k["Seçilen Kişi"])
+                .filter(ad => ad.toLowerCase().includes(girdi.toLowerCase()))
+                .slice(0, 5);
+
+            liste.innerHTML = "";
+            if (eslesenler.length === 0) {
+                liste.classList.add("hidden");
+                return;
+            }
+
+            eslesenler.forEach(ad => {
+                const oge = document.createElement("li");
+                oge.textContent = ad;
+                oge.className = "p-3 cursor-pointer hover:bg-indigo-600 transition-colors duration-150";
+                oge.addEventListener("click", () => karakterSecildi(ad));
+                liste.appendChild(oge);
+            });
+
+            liste.classList.remove("hidden");
+            currentIndex = -1;
+        }
+
+        // --- OLAY DİNLEYİCİLERİ ---
+
+        input.addEventListener("input", () => oneriFiltrele(input.value));
+
+        btn.addEventListener("click", () => {
+            const ad = input.value.trim();
+            if (ad) karakterSecildi(ad);
+        });
+
+       input.addEventListener("keydown", e => {
+    if (e.key === "Enter") {
+        e.preventDefault();
+
+        if (!tahminYapilabilir) {
+            // Animasyon devam ediyor, Enter ile tahmin yapma
+            return;
+        }
+
+        const ad = (currentIndex >= 0 && liste.getElementsByTagName("li")[currentIndex]) ? liste.getElementsByTagName("li")[currentIndex].textContent : input.value.trim();
+        if (ad) {
+            karakterSecildi(ad);
+        }
+        liste.classList.add("hidden");
+        return;
+    }
+
+            if (liste.classList.contains("hidden") || liste.getElementsByTagName("li").length === 0) return;
+
+            if (e.key === "ArrowDown") {
+                e.preventDefault();
+                currentIndex = (currentIndex + 1) % liste.getElementsByTagName("li").length;
+            } else if (e.key === "ArrowUp") {
+                e.preventDefault();
+                currentIndex = (currentIndex - 1 + liste.getElementsByTagName("li").length) % liste.getElementsByTagName("li").length;
+            } else if (e.key === "Escape") {
+                liste.classList.add("hidden");
+            }
+
+            Array.from(liste.getElementsByTagName("li")).forEach((li, i) => li.classList.toggle("selected", i === currentIndex));
+        });
+
+        document.addEventListener("click", e => {
+            if (!e.target.closest(".relative")) {
+                liste.classList.add("hidden");
+            }
+        });
+
+        // --- BAŞLATMA ---
+        await veriYukle();
+    });
+    </script>
 </body>
 </html>
