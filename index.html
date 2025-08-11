@@ -236,7 +236,6 @@
             // Veri yüklendikten sonra rastgele bir karakter seç
             if (karakterler.length > 0) {
                 secilenKisi = karakterler[Math.floor(Math.random() * karakterler.length)];
-                console.log("Gizli karakter:", secilenKisi["Seçilen Kişi"]); // Hata ayıklama için
             } else {
                 initialMessageContainer.innerHTML = `<div class="text-center text-red-400 p-4 bg-red-900/50 rounded-lg max-w-2xl mx-auto"><strong>HATA:</strong> Oynanacak karakter bulunamadı. Lütfen 'characters.json' dosyasının varlığını ve içeriğini kontrol edin.</div>`;
                 oyunBitti = true; // Oyunu durdur
