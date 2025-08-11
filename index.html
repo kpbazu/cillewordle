@@ -295,7 +295,7 @@
 
             
             // Kartların sıralı animasyonla gelmesi için her birine gecikme ekleniyor.
-const totalAnimDuration = 6; // toplam animasyon süresi saniye cinsinden
+const totalAnimDuration = 4; // toplam animasyon süresi saniye cinsinden
 const totalCards = alanlar.length - 1;
 
 alanlar.slice(1).forEach((alan, index) => {
@@ -347,7 +347,7 @@ setTimeout(() => {
                     `;
                     winModal.classList.remove('opacity-0', 'pointer-events-none');
                     winModal.querySelector('div').classList.remove('scale-95');
-                }, (alanlar.length * 80) + 800); // Gecikme animasyon süresine göre ayarlandı
+                }, totalAnimDuration * 1000);
             }
 
             input.value = "";
